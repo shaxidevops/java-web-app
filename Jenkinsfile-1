@@ -1,13 +1,14 @@
 pipeline {
-  agent {
-        docker {
-          image 'sonarsource/sonar-scanner-cli'
-       }
-  }
+  agent none
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
+    agent {
+        docker {
+          image 'sonarsource/sonar-scanner-cli'
+       }
+  }
     stage('Code Quality Check via SonarQube') {
       steps {
         script {
