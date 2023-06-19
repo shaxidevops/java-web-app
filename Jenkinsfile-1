@@ -1,5 +1,11 @@
 pipeline {
-agent { label 'jenkins-agent' }
+agent {
+  docker {
+    image 'jenkins/agent:alpine-jdk-11'
+    label 'jenkins-agent'
+  }
+}
+
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
