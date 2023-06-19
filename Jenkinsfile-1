@@ -1,5 +1,12 @@
 pipeline {
-  agent {label 'cloud'}
+  agent {
+  docker {
+    customWorkspace '/home/jenkins'
+    image 'jenkins/agent:alpine-jdk-11'
+    label 'cloud'
+  }
+}
+
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
