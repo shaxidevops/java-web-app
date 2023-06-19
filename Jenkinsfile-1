@@ -5,18 +5,20 @@ pipeline {
   }
   stages {
     stage('Code Quality Check via SonarQube') {
+      agent {
+        docker {
+          image 'sonarsource/sonar-scanner-cli'
+        }
+      }
       steps {
         script {
-          // Run all script steps inside the SonarScanner container
-          docker.image('sonarsource/sonar-scanner-cli').inside {
-            def scannerHome = tool 'sq1'
-            withSonarQubeEnv("sq1") {
-              sh "${tool("sq1")}/bin/sonar-scanner \
-                -Dsonar.projectKey=jenkins \
-                -Dsonar.sources=. \
-                -Dsonar.css.node=. \
-                -Dsonar.host.url=http://192.168.85.143:9000"
-            }
+          def scannerHome = tool 'sq1'
+          withSonarQubeEnv("sq1") {
+            sh "${tool("sq1")}/bin/sonar-scanner \
+            -Dsonar.projectKey=jenkins \
+            -Dsonar.sources=. \
+            -Dsonar.css.node=. \
+            -Dsonar.host.url=http://192.168.85.143:9000"
           }
         }
       }
