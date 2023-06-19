@@ -2,8 +2,8 @@ pipeline {
  agent { label 'cloud' }
   stages {
     stage('Code Quality Check via SonarQube') {
-    dockerNode(image: 'sonarsource/sonar-scanner-cli') {
       steps {
+      dockerNode(image: 'sonarsource/sonar-scanner-cli') {
           script {
             def scannerHome = tool 'sq1'
             withSonarQubeEnv("sq1") {
