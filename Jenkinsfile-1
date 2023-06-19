@@ -1,7 +1,7 @@
 pipeline {
 agent {
   docker {
-    image 'jenkins/agent:latest-alpine-jdk11'
+    label 'jenkins-agent'
   }
 }
   options {
