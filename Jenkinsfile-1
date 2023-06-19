@@ -1,12 +1,11 @@
 pipeline {
 agent {
-  dockerContainer {
-    dockerHost 'tcp://172.24.0.3:2375'
+  docker {
+    customWorkspace '/home/jenkins'
     image 'jenkins/agent:alpine-jdk-11'
-    remoteFs '/home'
+    label 'jenkins-agent'
   }
 }
-
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
