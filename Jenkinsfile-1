@@ -1,9 +1,13 @@
 pipeline {
- agent any
+ agent none
   stages {
     stage('Code Quality Check via SonarQube') {
+    agent {
+        docker {
+          image 'sonarsource/sonar-scanner-cli'
+        }
+      }
       steps {
-      dockerNode(image: 'sonarsource/sonar-scanner-cli') {
           script {
             def scannerHome = tool 'sq1'
             withSonarQubeEnv("sq1") {
@@ -12,7 +16,6 @@ pipeline {
                 -Dsonar.sources=. \
                 -Dsonar.css.node=. \
                 -Dsonar.host.url=http://192.168.85.143:9000"
-             }
           }
         }
       }
