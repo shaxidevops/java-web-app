@@ -4,7 +4,7 @@ agent none
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
-  agent {
+   agent {
     docker {
         image 'jenkins/agent:alpine-jdk11'
         label 'jenkins-agent'
