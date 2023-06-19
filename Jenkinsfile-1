@@ -7,7 +7,7 @@ pipeline {
     stage('Code Quality Check via SonarQube') {
       agent {
         docker {
-          image 'jenkins/agent:latest-alpine-jdk11'
+          image 'alpine:latest'
        }
     }
       steps {
