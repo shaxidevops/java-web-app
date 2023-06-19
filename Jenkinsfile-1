@@ -4,12 +4,19 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
-    stage('Scan') {
-      steps {
-        withSonarQubeEnv(installationName: 'sq1') { 
-          sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
-        }
-      }
-    }
+      stage('Code Quality Check via SonarQube') {
+            steps {
+                script {
+                def scannerHome = tool 'sq1';
+                    withSonarQubeEnv("sq1") {
+                    sh "${tool("sq1")}/bin/sonar-scanner \
+                    -Dsonar.projectKey=jenkins \
+                    -Dsonar.sources=. \
+                    -Dsonar.css.node=. \
+                    -Dsonar.host.url=http://192.168.50.117:9000"
+                    }
+                 }
+                }
+            }
   }
 }
