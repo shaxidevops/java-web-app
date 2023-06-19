@@ -4,12 +4,12 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
-    agent {
+    stage('Code Quality Check via SonarQube') {
+      agent {
         docker {
           image 'sonarsource/sonar-scanner-cli'
-       }
-  }
-    stage('Code Quality Check via SonarQube') {
+        }
+      }
       steps {
         script {
           def scannerHome = tool 'sq1'
