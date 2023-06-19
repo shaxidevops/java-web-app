@@ -1,11 +1,15 @@
 pipeline {
-agent {
-    label 'jenkins-agent'
-}
+agent none
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
+  agent {
+    docker {
+        image 'jenkins/agent:alpine-jdk11'
+        label 'jenkins-agent'
+    }
+}
       stage('Code Quality Check via SonarQube') {
             steps {
                 script {
