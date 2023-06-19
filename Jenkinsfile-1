@@ -1,26 +1,25 @@
 pipeline {
-agent none
+  agent none
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
-   agent {
+    stage('Code Quality Check via SonarQube') {
+      agent {
         label 'jenkins-agent'
+      }
+      steps {
+        script {
+          def scannerHome = tool 'sq1'
+          withSonarQubeEnv("sq1") {
+            sh "${tool("sq1")}/bin/sonar-scanner \
+            -Dsonar.projectKey=jenkins \
+            -Dsonar.sources=. \
+            -Dsonar.css.node=. \
+            -Dsonar.host.url=http://192.168.50.117:9000"
+          }
+        }
+      }
     }
-}
-      stage('Code Quality Check via SonarQube') {
-            steps {
-                script {
-                def scannerHome = tool 'sq1';
-                    withSonarQubeEnv("sq1") {
-                    sh "${tool("sq1")}/bin/sonar-scanner \
-                    -Dsonar.projectKey=jenkins \
-                    -Dsonar.sources=. \
-                    -Dsonar.css.node=. \
-                    -Dsonar.host.url=http://192.168.50.117:9000"
-                    }
-                 }
-                }
-            }
   }
 }
