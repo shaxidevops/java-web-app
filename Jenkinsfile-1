@@ -4,11 +4,12 @@ pipeline {
     stage('Code Quality Check via SonarQube') {
       steps {
         script {
-          docker.withServer('tcp://192.168.85.143') {
-            docker.image('sonarsource/sonar-scanner-cli') {
-              // Perform code quality check using SonarQube
+          docker.withServer('tcp://192.168.85.143:2376') {
+          
+            docker.image('sonarsource/sonar-scanner-cli').inside {
+              
               withSonarQubeEnv("sq1") {
-                sh "${tool("sq1")}/bin/sonar-scanner \
+                sh "${tool('sq1')}/bin/sonar-scanner \
                   -Dsonar.projectKey=jenkins \
                   -Dsonar.sources=. \
                   -Dsonar.css.node=. \
